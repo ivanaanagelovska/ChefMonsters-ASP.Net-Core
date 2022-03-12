@@ -1,4 +1,4 @@
-﻿namespace ChefMonsters.Data.Models
+﻿namespace ChefMonsters.Data.Models.Constants
 {
     public class DataModelsConstants
     {
@@ -13,5 +13,11 @@
         public const int RecipeNameMaxLenghth = 50;
 
         public const int RecipeDescriptionMaxLenghth = 350;
+
+        public const int ClassTypeMaxLength = 30;
+
+        public const int FoodThemeMaxLength = 50;
+
+        public const int CookingClassNameMaxLength = 60;
     }
 }

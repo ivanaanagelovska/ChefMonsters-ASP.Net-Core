@@ -174,6 +174,135 @@ namespace ChefMonsters.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("ChefMonsters.Data.Models.ClassType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("ClassTypes");
+                });
+
+            modelBuilder.Entity("ChefMonsters.Data.Models.CookingClass", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AddedByUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FoodThemeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedByUserId");
+
+                    b.HasIndex("FoodThemeId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("CookingClasses");
+                });
+
+            modelBuilder.Entity("ChefMonsters.Data.Models.CookingClassInstance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AddedByUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClassTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CookingClassId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedByUserId");
+
+                    b.HasIndex("ClassTypeId");
+
+                    b.HasIndex("CookingClassId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("CookingClassInstances");
+                });
+
             modelBuilder.Entity("ChefMonsters.Data.Models.Difficulty", b =>
                 {
                     b.Property<int>("Id")
@@ -206,6 +335,38 @@ namespace ChefMonsters.Data.Migrations
                     b.ToTable("Difficulties");
                 });
 
+            modelBuilder.Entity("ChefMonsters.Data.Models.FoodTheme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("FoodThemes");
+                });
+
             modelBuilder.Entity("ChefMonsters.Data.Models.Image", b =>
                 {
                     b.Property<string>("Id")
@@ -213,6 +374,9 @@ namespace ChefMonsters.Data.Migrations
 
                     b.Property<string>("AddedByUserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CookingClassId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -231,12 +395,14 @@ namespace ChefMonsters.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RecipeId")
+                    b.Property<int?>("RecipeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddedByUserId");
+
+                    b.HasIndex("CookingClassId");
 
                     b.HasIndex("IsDeleted");
 
@@ -385,6 +551,52 @@ namespace ChefMonsters.Data.Migrations
                     b.ToTable("RecipeIngredients");
                 });
 
+            modelBuilder.Entity("ChefMonsters.Data.Models.Video", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AddedByUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AddedByUserId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("Videos");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -491,19 +703,65 @@ namespace ChefMonsters.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ChefMonsters.Data.Models.CookingClass", b =>
+                {
+                    b.HasOne("ChefMonsters.Data.Models.ApplicationUser", "AddedByUser")
+                        .WithMany()
+                        .HasForeignKey("AddedByUserId");
+
+                    b.HasOne("ChefMonsters.Data.Models.FoodTheme", "FoodTheme")
+                        .WithMany("CookingClasses")
+                        .HasForeignKey("FoodThemeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AddedByUser");
+
+                    b.Navigation("FoodTheme");
+                });
+
+            modelBuilder.Entity("ChefMonsters.Data.Models.CookingClassInstance", b =>
+                {
+                    b.HasOne("ChefMonsters.Data.Models.ApplicationUser", "AddedByUser")
+                        .WithMany()
+                        .HasForeignKey("AddedByUserId");
+
+                    b.HasOne("ChefMonsters.Data.Models.ClassType", "ClassType")
+                        .WithMany("CookingClassInstances")
+                        .HasForeignKey("ClassTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ChefMonsters.Data.Models.CookingClass", "CookingClass")
+                        .WithMany("CookingClassInstances")
+                        .HasForeignKey("CookingClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AddedByUser");
+
+                    b.Navigation("ClassType");
+
+                    b.Navigation("CookingClass");
+                });
+
             modelBuilder.Entity("ChefMonsters.Data.Models.Image", b =>
                 {
                     b.HasOne("ChefMonsters.Data.Models.ApplicationUser", "AddedByUser")
                         .WithMany()
                         .HasForeignKey("AddedByUserId");
 
+                    b.HasOne("ChefMonsters.Data.Models.CookingClass", "CookingClass")
+                        .WithMany("Images")
+                        .HasForeignKey("CookingClassId");
+
                     b.HasOne("ChefMonsters.Data.Models.Recipe", "Recipe")
                         .WithMany("Images")
-                        .HasForeignKey("RecipeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("RecipeId");
 
                     b.Navigation("AddedByUser");
+
+                    b.Navigation("CookingClass");
 
                     b.Navigation("Recipe");
                 });
@@ -550,6 +808,23 @@ namespace ChefMonsters.Data.Migrations
                     b.Navigation("Ingredient");
 
                     b.Navigation("Recipe");
+                });
+
+            modelBuilder.Entity("ChefMonsters.Data.Models.Video", b =>
+                {
+                    b.HasOne("ChefMonsters.Data.Models.ApplicationUser", "AddedByUser")
+                        .WithMany()
+                        .HasForeignKey("AddedByUserId");
+
+                    b.HasOne("ChefMonsters.Data.Models.Category", "Category")
+                        .WithMany("Videos")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AddedByUser");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -615,11 +890,30 @@ namespace ChefMonsters.Data.Migrations
             modelBuilder.Entity("ChefMonsters.Data.Models.Category", b =>
                 {
                     b.Navigation("Recipes");
+
+                    b.Navigation("Videos");
+                });
+
+            modelBuilder.Entity("ChefMonsters.Data.Models.ClassType", b =>
+                {
+                    b.Navigation("CookingClassInstances");
+                });
+
+            modelBuilder.Entity("ChefMonsters.Data.Models.CookingClass", b =>
+                {
+                    b.Navigation("CookingClassInstances");
+
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("ChefMonsters.Data.Models.Difficulty", b =>
                 {
                     b.Navigation("Recipes");
+                });
+
+            modelBuilder.Entity("ChefMonsters.Data.Models.FoodTheme", b =>
+                {
+                    b.Navigation("CookingClasses");
                 });
 
             modelBuilder.Entity("ChefMonsters.Data.Models.Ingredient", b =>

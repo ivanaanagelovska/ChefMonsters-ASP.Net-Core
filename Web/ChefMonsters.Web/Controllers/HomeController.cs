@@ -1,16 +1,33 @@
 ﻿namespace ChefMonsters.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Linq;
 
+    using ChefMonsters.Data;
     using ChefMonsters.Web.ViewModels;
-
+    using ChefMonsters.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
+        private readonly ChefMonstersDbContext dbContext;
+
+        public HomeController(ChefMonstersDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new IndexViewModel
+            {
+                CategoryCount = this.dbContext.Categories.Count(),
+                ImagesCount = this.dbContext.Images.Count(),
+                IngredientCount = this.dbContext.Ingredients.Count(),
+                RecipeCount = this.dbContext.Recipes.Count(),
+            };
+
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

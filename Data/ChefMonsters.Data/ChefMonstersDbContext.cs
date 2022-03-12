@@ -36,6 +36,16 @@
 
         public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
 
+        public DbSet<Video> Videos { get; set; }
+
+        public DbSet<CookingClass> CookingClasses { get; set; }
+
+        public DbSet<CookingClassInstance> CookingClassInstances { get; set; }
+
+        public DbSet<ClassType> ClassTypes { get; set; }
+
+        public DbSet<FoodTheme> FoodThemes { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

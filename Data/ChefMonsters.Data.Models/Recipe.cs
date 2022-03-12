@@ -6,7 +6,7 @@
 
     using ChefMonsters.Data.Common.Models;
 
-    using static DataModelsConstants;
+    using static ChefMonsters.Data.Models.Constants.DataModelsConstants;
 
     public class Recipe : BaseDeletableModel<int>
     {

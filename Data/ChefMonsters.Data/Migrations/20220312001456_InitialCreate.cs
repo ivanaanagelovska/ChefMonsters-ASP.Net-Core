@@ -1,6 +1,4 @@
-﻿#nullable disable
-
-namespace ChefMonsters.Data.Migrations
+﻿namespace ChefMonsters.Data.Migrations
 {
     using System;
 
@@ -75,6 +73,23 @@ namespace ChefMonsters.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClassTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Difficulties",
                 columns: table => new
                 {
@@ -89,6 +104,23 @@ namespace ChefMonsters.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Difficulties", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FoodThemes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FoodThemes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,6 +247,37 @@ namespace ChefMonsters.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Videos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    AddedByUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Videos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Videos_AspNetUsers_AddedByUserId",
+                        column: x => x.AddedByUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Videos_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Recipes",
                 columns: table => new
                 {
@@ -258,12 +321,14 @@ namespace ChefMonsters.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
+                name: "CookingClasses",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
-                    Extention = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FoodThemeId = table.Column<int>(type: "int", nullable: false),
                     AddedByUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -272,16 +337,16 @@ namespace ChefMonsters.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.PrimaryKey("PK_CookingClasses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Images_AspNetUsers_AddedByUserId",
+                        name: "FK_CookingClasses_AspNetUsers_AddedByUserId",
                         column: x => x.AddedByUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Images_Recipes_RecipeId",
-                        column: x => x.RecipeId,
-                        principalTable: "Recipes",
+                        name: "FK_CookingClasses_FoodThemes_FoodThemeId",
+                        column: x => x.FoodThemeId,
+                        principalTable: "FoodThemes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -315,6 +380,79 @@ namespace ChefMonsters.Data.Migrations
                         principalTable: "Recipes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CookingClassInstances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ClassTypeId = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CookingClassId = table.Column<int>(type: "int", nullable: false),
+                    AddedByUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CookingClassInstances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CookingClassInstances_AspNetUsers_AddedByUserId",
+                        column: x => x.AddedByUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CookingClassInstances_ClassTypes_ClassTypeId",
+                        column: x => x.ClassTypeId,
+                        principalTable: "ClassTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CookingClassInstances_CookingClasses_CookingClassId",
+                        column: x => x.CookingClassId,
+                        principalTable: "CookingClasses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RecipeId = table.Column<int>(type: "int", nullable: true),
+                    CookingClassId = table.Column<int>(type: "int", nullable: true),
+                    Extention = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    AddedByUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Images_AspNetUsers_AddedByUserId",
+                        column: x => x.AddedByUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Images_CookingClasses_CookingClassId",
+                        column: x => x.CookingClassId,
+                        principalTable: "CookingClasses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Images_Recipes_RecipeId",
+                        column: x => x.RecipeId,
+                        principalTable: "Recipes",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -372,14 +510,64 @@ namespace ChefMonsters.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClassTypes_IsDeleted",
+                table: "ClassTypes",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookingClasses_AddedByUserId",
+                table: "CookingClasses",
+                column: "AddedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookingClasses_FoodThemeId",
+                table: "CookingClasses",
+                column: "FoodThemeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookingClasses_IsDeleted",
+                table: "CookingClasses",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookingClassInstances_AddedByUserId",
+                table: "CookingClassInstances",
+                column: "AddedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookingClassInstances_ClassTypeId",
+                table: "CookingClassInstances",
+                column: "ClassTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookingClassInstances_CookingClassId",
+                table: "CookingClassInstances",
+                column: "CookingClassId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CookingClassInstances_IsDeleted",
+                table: "CookingClassInstances",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Difficulties_IsDeleted",
                 table: "Difficulties",
+                column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FoodThemes_IsDeleted",
+                table: "FoodThemes",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_AddedByUserId",
                 table: "Images",
                 column: "AddedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Images_CookingClassId",
+                table: "Images",
+                column: "CookingClassId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_IsDeleted",
@@ -430,6 +618,21 @@ namespace ChefMonsters.Data.Migrations
                 name: "IX_Recipes_IsDeleted",
                 table: "Recipes",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Videos_AddedByUserId",
+                table: "Videos",
+                column: "AddedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Videos_CategoryId",
+                table: "Videos",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Videos_IsDeleted",
+                table: "Videos",
+                column: "IsDeleted");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -450,19 +653,34 @@ namespace ChefMonsters.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CookingClassInstances");
+
+            migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
                 name: "RecipeIngredients");
 
             migrationBuilder.DropTable(
+                name: "Videos");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "ClassTypes");
+
+            migrationBuilder.DropTable(
+                name: "CookingClasses");
 
             migrationBuilder.DropTable(
                 name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "Recipes");
+
+            migrationBuilder.DropTable(
+                name: "FoodThemes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

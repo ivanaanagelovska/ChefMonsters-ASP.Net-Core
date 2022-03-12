@@ -5,13 +5,14 @@
 
     using ChefMonsters.Data.Common.Models;
 
-    using static DataModelsConstants;
+    using static ChefMonsters.Data.Models.Constants.DataModelsConstants;
 
     public class Category : BaseDeletableModel<int>
     {
         public Category()
         {
             this.Recipes = new HashSet<Recipe>();
+            this.Videos = new HashSet<Video>();
         }
 
         [Required]
@@ -19,5 +20,7 @@
         public string Name { get; set; }
 
         public virtual ICollection<Recipe> Recipes { get; set; }
+
+        public virtual ICollection<Video> Videos { get; set; }
     }
 }

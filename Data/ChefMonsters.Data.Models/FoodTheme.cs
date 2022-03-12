@@ -7,17 +7,17 @@
 
     using static ChefMonsters.Data.Models.Constants.DataModelsConstants;
 
-    public class Difficulty : BaseDeletableModel<int>
+    public class FoodTheme : BaseDeletableModel<int>
     {
-        public Difficulty()
+        public FoodTheme()
         {
-            this.Recipes = new HashSet<Recipe>();
+            this.CookingClasses = new HashSet<CookingClass>();
         }
 
         [Required]
-        [MaxLength(DifficultyNameMaxLength)]
+        [MaxLength(FoodThemeMaxLength)]
         public string Name { get; set; }
 
-        public virtual ICollection<Recipe> Recipes { get; set; }
+        public virtual ICollection<CookingClass> CookingClasses { get; set; }
     }
 }

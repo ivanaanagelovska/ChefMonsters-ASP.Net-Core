@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ChefMonsters.Data.Models.Constants\ChefMonsters.Data.Models.Constants.csproj" />
     <ProjectReference Include="..\ChefMonsters.Data.Common\ChefMonsters.Data.Common.csproj" />
   </ItemGroup>
   

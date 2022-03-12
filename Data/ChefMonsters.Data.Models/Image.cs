@@ -5,7 +5,7 @@
 
     using ChefMonsters.Data.Common.Models;
 
-    using static DataModelsConstants;
+    using static ChefMonsters.Data.Models.Constants.DataModelsConstants;
 
     public class Image : BaseDeletableModel<string>
     {
@@ -14,9 +14,13 @@
             this.Id = Guid.NewGuid().ToString();
         }
 
-        public int RecipeId { get; set; }
+        public int? RecipeId { get; set; }
 
         public virtual Recipe Recipe { get; set; }
+
+        public int? CookingClassId { get; set; }
+
+        public virtual CookingClass CookingClass { get; set; }
 
         [Required]
         [MaxLength(ImageExtentionMaxLenghth)]
