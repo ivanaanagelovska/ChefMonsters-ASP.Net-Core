@@ -28,6 +28,8 @@
                               new RolesSeeder(),
                               new CategorySeeder(),
                               new DifficultiesSeeder(),
+                              new FoodThemeSeeder(),
+                              new ClassTypeSeeder(),
                           };
 
             foreach (var seeder in seeders)
