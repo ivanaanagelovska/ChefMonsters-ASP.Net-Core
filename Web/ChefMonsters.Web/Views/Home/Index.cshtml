@@ -1,11 +1,15 @@
-﻿@{
+﻿@model IndexViewModel
+
+@{
     ViewData["Title"] = "Recipes, Videos and Cooking classes";
+    ViewData["Total"] = @Model.RecipeCount + @Model.VideosCount + @Model.CookingClassesCount;
 }
 
 <div class="text-center">
     <h1>One library, millions of ways to level up your cooking skills</h1>
-    <h2>Become fearless in the kitchen with 400M+ recipes, videos and cooking classes.</h2>
-</div><br/>
+    <h2>Become fearless in the kitchen with @ViewData["Total"] recipes, videos and cooking classes.</h2>
+</div>
+<br />
 <div class="row">
     <div class="col-md-4">
         <h2>Quickly master complex, flavorful dishes</h2>

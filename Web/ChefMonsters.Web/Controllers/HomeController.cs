@@ -21,10 +21,9 @@
         {
             var viewModel = new IndexViewModel
             {
-                CategoryCount = this.dbContext.Categories.Count(),
-                ImagesCount = this.dbContext.Images.Count(),
-                IngredientCount = this.dbContext.Ingredients.Count(),
                 RecipeCount = this.dbContext.Recipes.Count(),
+                VideosCount = this.dbContext.Videos.Count(),
+                CookingClassesCount = this.dbContext.CookingClasses.Count(),
             };
 
             return this.View(viewModel);

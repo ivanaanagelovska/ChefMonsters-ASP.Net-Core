@@ -4,10 +4,9 @@
     {
         public int RecipeCount { get; set; }
 
-        public int CategoryCount { get; set; }
+        public int VideosCount { get; set; }
 
-        public int IngredientCount { get; set; }
+        public int CookingClassesCount { get; set; }
 
-        public int ImagesCount { get; set; }
     }
 }
